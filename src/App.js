@@ -7,30 +7,31 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Nesto', age: 28 },
-      { name: 'Isto', age: 12345 },
-      { name: 'Blee', age: 145 }
+      { id:'1',name: 'Nesto', age: 28 },
+      { id:'2',name: 'Isto', age: 12345 },
+      { id:'3',name: 'Blee', age: 145 }
     ],
     showPersons:false
 
   }
-  nameChangeHandler = (newName,newAge) => {
-    this.setState({
-      persons: [
-        { name: newName, age: newAge },
-        { name: 'Isto', age: 12345 },
-        { name: 'Blee', age: 145 }
-      ],
-    })
-  }
-  name_ChangeInputHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "newName", age: "newAge" },
-        { name: event.target.value, age: 12345 },
-        { name: 'Blee', age: 145 }
-      ]
-    })
+ deletePerson = (index)=>{
+  let persons = [...this.state.persons];
+  persons.splice(index,1);
+  this.setState({persons:persons})
+ }
+  name_ChangeInputHandler = (event,id) => {
+    let personIndex = this.state.persons.findIndex(p=> {
+      return p.id===id
+    });
+    let person = {
+      ...this.state.persons[personIndex]
+    };
+    person.name = event.target.value;
+
+    let personas = [...this.state.persons];
+    personas[personIndex]=person;
+    console.log(personas)
+    this.setState({persons:personas})
   }
   toggleShow=()=>{
     const doesShow = this.state.showPersons;
@@ -49,11 +50,13 @@ class App extends Component {
     if(this.state.showPersons){
       persons=(
         <div>
-          {this.state.persons.map(person=>{
+          {this.state.persons.map((person,index)=>{
             return <Person
+            click = {()=>this.deletePerson(index)}
             name={person.name}
             age={person.age}
-            change={this.name_ChangeInputHandler}
+            key={person.id}
+            change={(event)=>this.name_ChangeInputHandler(event,person.id)}
             />
           })}
 
@@ -68,7 +71,7 @@ class App extends Component {
         <h1>Hi,Nesto</h1>
         <button 
         style={buttonStyle}
-        onClick={this.toggleShow}>Name change</button>
+        onClick={this.toggleShow}>Toggle visible</button>
         {persons}
       </div>
     );
