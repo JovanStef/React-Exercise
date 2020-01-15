@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import style from './App.module.css';
 import Person from './Person/Person';
 // import UserInput from './userInput/userInput';
 // import UserOutput from './userOutput/userOutput';
@@ -40,11 +40,7 @@ class App extends Component {
 
 
   render() {
-    const buttonStyle ={
-      backgroundColor: 'white',
-      padding:'5px',
-      border:'1px solid blue'
-    }
+    let buttonStyle =''
     let persons=null;
 
     if(this.state.showPersons){
@@ -62,15 +58,24 @@ class App extends Component {
 
 
     </div>
+
     )
+    buttonStyle=style.Green;
+
 
     }
-
+const classesArray = [];
+if(this.state.persons.length <=2){
+  classesArray.push(style.red)
+}if(this.state.persons.length <=1){
+  classesArray.push(style.bold)
+}
     return (
-      <div className="App">
+      <div className={style.App}>
         <h1>Hi,Nesto</h1>
+        <p className={classesArray.join(' ')}>These are persons</p>
         <button 
-        style={buttonStyle}
+        className={buttonStyle}
         onClick={this.toggleShow}>Toggle visible</button>
         {persons}
       </div>
