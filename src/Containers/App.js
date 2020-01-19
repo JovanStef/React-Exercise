@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import style from './App.module.css';
 import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Cockpit/Cockpit';
+import Aux from '../hoc/Aux';
+import WithClass from '../hoc/withClass';
 
 class App extends Component {
   state = {
@@ -64,17 +66,18 @@ if(this.state.persons.length <=2){
   classesArray.push(style.bold)
 }
     return (
-      <div className={style.App}>
+      <Aux>
         <Cockpit
+        title={this.props.title}
         showPersons={this.state.showPersons}
         persons={this.state.persons}
         clicked={this.toggleShow}
         />
         
         {persons}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default WithClass(App,style.App);

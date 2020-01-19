@@ -1,7 +1,14 @@
-import React from 'react';
+import React , {useRef, useEffect} from 'react';
 import style from './Cockpit.module.css'
 
-const cockpit =(props)=>{
+const Cockpit =(props)=>{
+    const btnRef = useRef(null);
+    useEffect(()=>{
+        setTimeout(()=>{
+            btnRef.current.click();
+        },1000)
+
+    },[]);
     let buttonStyle ='';
     buttonStyle=style.Green;
 if(props.showPersons){
@@ -16,13 +23,14 @@ if(props.persons.length <=2){
 }
     return(
         <div className={style.Cockpit}>
-            <h1>Hi,Nesto</h1>
+<h1>{props.title}</h1>
         <p className={classesArray.join(' ')}>These are persons</p>
         <button 
+        ref={btnRef}
         className={buttonStyle}
         onClick={props.clicked}>Toggle visible</button>
         </div>
     )
 }
 
-export default cockpit
+export default Cockpit

@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from './Person.module.css';
+import Aux from '../../../hoc/Aux';
+import WithClass from '../../../hoc/withClass';
 
-const person = (props) => {
+class Person extends Component {
+    constructor(props){
+        super(props)
+            this.inputElementRef = React.createRef();
+        
+    }
 
-    return (
-        <div className={styles.Person}>
-            <p onClick={props.click}>I'm {props.name} and i am {props.age} years old!!!!!</p>
-            <p>{props.children}</p>
-            <input type="text" onChange={props.change} value={props.name} />
-        </div>
-    )
+    componentDidMount(){
+        this.inputElementRef.current.focus();
+    }
+    render() {
+
+        return (
+            <Aux>
+
+                <p onClick={this.props.click}>I'm {this.props.name} and i am {this.props.age} years old!!!!!</p>
+                <p>{this.props.children}</p>
+                <input 
+                ref={this.inputElementRef} 
+                type="text" 
+                onChange={this.props.change} 
+                value={this.props.name} />
+            </Aux>
+        )
+    }
 }
 
-export default person
+export default WithClass(Person, styles.Person)
